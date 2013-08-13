@@ -5,6 +5,7 @@
 	<property name="bin.dir" value="${basedir}/bin" />
 	<property name="lib.dir" value="${basedir}/lib" />
 	<property name="dist.dir" value="${basedir}/dist" />
+	<property name="javadoc.dir" value="${basedir}/javadoc" />
 	<property name="archive.name" value="${ant.project.name}-${version}.jar" />
 
 	<path id="compile.class.path">
@@ -14,8 +15,10 @@
 	<target name="clean">
 		<delete dir="${bin.dir}" quiet="true" />
 		<delete dir="${dist.dir}" quiet="true" />
+		<delete dir="${javadoc.dir}" quiet="true" />
 		<mkdir dir="${bin.dir}" />
 		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${javadoc.dir}" />
 	</target>
 
 	<target name="compile">
@@ -46,6 +49,12 @@
 		</jar>
 	</target>
 
-	<target name="clean-build" depends="clean,compile,archive" />
+	<target name="javadoc">
+		<javadoc destdir="${javadoc.dir}" classpathref="compile.class.path">
+			<fileset dir="${src.dir}" />
+		</javadoc>
+	</target>
+
+	<target name="clean-build" depends="clean,compile,archive,javadoc" />
 
 </project>
