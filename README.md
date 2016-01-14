@@ -1,4 +1,4 @@
-YUICompressorAntTask
+yuicompressor-ant
 ====================
 This project wraps the YUI Compressor with an Ant task to provide better
 integration of JavaScript and CSS compression to an Ant-based build process.
@@ -8,7 +8,7 @@ file sets and mapper in Ant over the command-line interface.
 Requirements
 ------------
 
-YUICompressorAntTask works with the following:
+yuicompressor-ant works with the following:
 
 * J2SE 5.0 or later
 * Apache Ant 1.7.0 or later: <http://ant.apache.org/>
@@ -18,9 +18,7 @@ YUICompressorAntTask works with the following:
 Building
 --------
 
-Use the included Ant build file, `build.xml`, to build the project. The build
-artifact `YUICompressorAntTask-2.4.8.jar` will be created in the `dist`
-directory.
+Use Maven to build this library.
 
 Usage
 -----
@@ -29,9 +27,9 @@ In your Ant build file, use the `<taskdef>` task to define the
 `<yuicompressor>` Ant task (change the JAR file locations as needed):
 
 	<taskdef name="yuicompressor"
-	         classname="com.github.acwwat.ant.taskdefs.YUICompressTask">
+	         classname="com.github.acwwat.ant.taskdefs.YUICompressorTask">
 		<classpath>
-			<pathelement location="YUICompressorAntTask-2.4.8.jar" />
+			<pathelement location="yuicompressor-ant-2.4.8.jar" />
 			<pathelement location="yuicompressor-2.4.8.jar" />
 		</classpath>
 	</taskdef>

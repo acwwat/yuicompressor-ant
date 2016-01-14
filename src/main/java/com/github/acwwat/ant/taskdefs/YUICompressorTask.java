@@ -1,28 +1,25 @@
 /*
- * Copyright (c) 2013, Anthony Wat
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
- *
- *   Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
- *   
- *   Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
- * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
- * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
+ * The MIT License (MIT)
+ * 
+ * Copyright (c) 2016 Anthony Wat
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 package com.github.acwwat.ant.taskdefs;
@@ -72,7 +69,8 @@ import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
  * <tr>
  * <td>destDir</td>
  * <td>The destination directory for the compressed files. The default location
- * is the same as the source directory from each specified file set if not set.</td>
+ * is the same as the source directory from each specified file set if not set.
+ * </td>
  * <td>No</td>
  * </tr>
  * <tr>
@@ -124,13 +122,13 @@ import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
  * <td>No; Defaults to <code>false</code></td>
  * </tr>
  * </table>
- * <h3>Nested elements</h3> <h4>fileset</h4>
+ * <h3>Nested elements</h3>
+ * <h4>fileset</h4>
  * <p>
  * The set of files to be compressed. At least one <code>&lt;fileset&gt;</code>
  * nested element must be specified.
  * </p>
- * <h4>
- * mapper</h4>
+ * <h4>mapper</h4>
  * <p>
  * (Optional) The mapper to map output file names.
  * </p>
@@ -151,7 +149,8 @@ import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
  * The following example compresses all JavaScript files in the
  * <code>${src.dir}</code> directory to the <code>${bin.dir}</code> directory
  * with the suffix <code>-min</code> added to the file name and verbose output
- * enabled.</p>
+ * enabled.
+ * </p>
  * <p>
  * <code>&lt;yuicompressor destdir=&quot;${bin.dir}&quot; verbose=&quot;true&quot;&gt;<br />
 	&nbsp;&nbsp;&nbsp;&nbsp;&lt;fileset dir=&quot;${src.dir}&quot; includes=&quot;**&#47;*.js&quot; /&gt;<br />
@@ -257,8 +256,8 @@ public class YUICompressorTask extends Task {
 	 */
 	public void addMapper(Mapper mapper) throws BuildException {
 		if (this.mapper != null) {
-			throw new BuildException("Only one nested <mapper> element can "
-					+ "be specified.");
+			throw new BuildException(
+					"Only one nested <mapper> element can " + "be specified.");
 		}
 		this.mapper = mapper;
 	}
@@ -280,18 +279,18 @@ public class YUICompressorTask extends Task {
 		InputStreamReader in = null;
 		OutputStreamWriter out = null;
 		try {
-			String type = (typeOverride != null) ? typeOverride : srcFile
-					.getName()
-					.substring(srcFile.getName().lastIndexOf('.') + 1);
+			String type = (typeOverride != null) ? typeOverride
+					: srcFile.getName()
+							.substring(srcFile.getName().lastIndexOf('.') + 1);
 			in = new InputStreamReader(new FileInputStream(srcFile), charSet);
 			if (type.equalsIgnoreCase(TYPE_JS)) {
 				final String filePath = srcFile.getAbsolutePath();
 				JavaScriptCompressor compressor = new JavaScriptCompressor(in,
 						new ErrorReporter() {
 
-							public void error(String message,
-									String sourceName, int line,
-									String lineSource, int lineOffset) {
+							public void error(String message, String sourceName,
+									int line, String lineSource,
+									int lineOffset) {
 								log("[ERROR] in " + filePath, Project.MSG_ERR);
 								if (line < 0) {
 									log("  " + message, Project.MSG_ERR);
@@ -302,8 +301,8 @@ public class YUICompressorTask extends Task {
 							}
 
 							public EvaluatorException runtimeError(
-									String message, String sourceName,
-									int line, String lineSource, int lineOffset) {
+									String message, String sourceName, int line,
+									String lineSource, int lineOffset) {
 								error(message, sourceName, line, lineSource,
 										lineOffset);
 								return new EvaluatorException(message);
@@ -370,8 +369,8 @@ public class YUICompressorTask extends Task {
 			String[] includedFiles = ds.getIncludedFiles();
 			for (String includedFile : includedFiles) {
 				File srcFile = new File(ds.getBasedir(), includedFile);
-				File destDir = (destDirOverride != null) ? destDirOverride : ds
-						.getBasedir();
+				File destDir = (destDirOverride != null) ? destDirOverride
+						: ds.getBasedir();
 				File destFile = new File(destDir, includedFile);
 				if (mapper != null) {
 					String[] mappedFileNames = mapper.getImplementation()
@@ -381,7 +380,8 @@ public class YUICompressorTask extends Task {
 								+ includedFile + "\". Skipping.");
 						continue;
 					} else {
-						destFile = new File(ds.getBasedir(), mappedFileNames[0]);
+						destFile = new File(ds.getBasedir(),
+								mappedFileNames[0]);
 					}
 				}
 				try {
